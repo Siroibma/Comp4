@@ -1,0 +1,144 @@
+#include <SFML/System.hpp>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <math.h>
+#include <cmath>
+#include "PTree.hpp"
+#include <iostream>
+
+using namespace std;
+using namespace sf;
+
+//first we gotta find a way to mark the top left and bottom right
+
+//then we create a rectangle on the top left and right and multiply it by sqrt2/2 
+
+//then we recursively call the function to repeat the process
+
+/*
+something along the line of 
+
+(window, amount of recursion, rectangle){
+
+base case
+draw current picture
+
+left = rectangle;
+auto size = rectangle * sqrt 2/2 
+auto rotation = rectangle.rotation;
+get to the top left
+rotate tiny rectangle by degree
+recursively call (window, n-1 to prevent infinite loop, left)
+
+right = rectangle;
+right = rectangle * sqrt 2/2;
+rotate;
+get the top right; 
+recursively call(window, n-1, right) 
+
+
+so we must find a way to get top left and top right. I will try to use local bound. 
+
+
+we can also try to put the drawing in the middle
+
+(window, size of window)
+
+draw a rectangle
+put a rectangle in the bottom middle
+draw the rectangle
+call the draw function 
+
+(window, n-1, rectangle)
+
+*/
+		  
+PTree::PTree(double L, int N)
+{
+  // do what the hw says
+  double width = (6 * L);
+  double height = (4 * L);
+
+  window.create(VideoMode(width, height), "Ps2");
+  window.setFramerateLimit(30);
+  window.setVerticalSyncEnabled(false);
+  while(window.isOpen())
+  {
+    for(sf::Event event; window.pollEvent(event);)
+      {
+          if(event.type == sf::Event::Closed)
+            window.close();
+      }
+
+    //Here we call the function that generates the base triangle
+    PTree::drawPtree(window, L, N);
+    window.display();
+  }
+}
+
+PTree::~PTree(){}
+
+void PTree::drawPtree(sf::RenderTarget& target, const int N, const sf::RectangleShape& parent)
+{
+  static const float halfSqrt2 = sqrt(2.f) / 2;
+
+  if(N < 1) return;
+  
+  target.draw(parent);
+  
+  auto sz = parent.getSize();
+  auto tf = parent.getTransform();
+
+  //make them both equal to the base traingle
+  auto childL = parent;
+  auto childR = parent;
+
+  //The size factor of sqrt2/2
+  childL.setSize(sz * halfSqrt2);
+
+  //bottom left corner
+  childL.setOrigin(0, childL.getSize().y);
+
+  // top left corner of the parent triangle
+  childL.setPosition(tf.transformPoint({0, 0}));
+
+  //rotate it 45 degrees to the right
+  childL.rotate(-45);
+
+  //call it recursively
+  PTree::drawPtree(target, N - 1, childL);
+
+  //the size factor again
+  childR.setSize(sz * halfSqrt2);
+
+  //bottom left
+  childR.setOrigin(childR.getSize());
+
+  //top right of the rectangle
+  childR.setPosition(tf.transformPoint({sz.x, 0}));
+
+  //rotate it to the right 45
+  childR.rotate(45);
+
+  //recursively call it on the right
+  PTree::drawPtree(target, N - 1, childR);
+}
+
+void PTree::drawPtree(sf::RenderTarget& target, const float L, const int N)
+{
+  //Triange set to our specification
+  sf::RectangleShape rect{{L, L}};
+
+  //origin in the  middle
+  rect.setOrigin(rect.getSize() / 2.f);
+
+  //set position in the middle but rectangle goes all the way to the bottom 
+  rect.setPosition(target.getSize().x / 2.f, target.getSize().y - L / 2.f);
+
+  //set the tree to red
+  rect.setFillColor(sf::Color::Green);
+
+  //call the recursive function
+  
+  PTree::drawPtree(target, N, rect);
+}

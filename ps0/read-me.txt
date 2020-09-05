@@ -1,0 +1,44 @@
+/*****************************************************
+*  ps0-readme 
+*  Hello World Assignment
+******************************************************
+
+Your Name: Ambioris Lora
+
+Operating system you're using(Linux OS X, or Windows): Windows
+
+IDE or text editor you're using: emacs
+
+Hours to complete assignment: 4 hours, I recieved a vertical sync error that took me a while to fix
+
+/***********************************************************
+* List Some Information to help me get to know you
+************************************************************/
+
+Did you take Computing I at UML?
+
+-Yes with Sarita Hakimian
+
+/*************************************************************
+* Part 0 of this assignment is to read the collaboration Policy
+**************************************************************/
+
+I believe that the most applicable rule in this class is the one where you have to turn in your own code. Sometimes it can be tempting to just copy someone elses code but the whole point of this class is to do projects and if you are not doing it on your own then you aren't really doing anything. Although I do believe asking people for help should be encouraged. I think thats the most meaningful way to learn something.
+
+/******************************************************
+* List any help you recieved from ta's, teachers and students
+*******************************************************/
+
+I recieved no help on this assignment
+
+/******************************************************
+* Describe any serious problems you encountered
+******************************************************/
+
+I encountered two issues. The first one was the sound.hpp and audio library wasn't being read. This didn't allow me to add sound to my program. The second issue was I recieved an error labeled "vertical sync is not enabled." This is what took me the longest to fix and I rewrote my code a couple times just to fix it. I had no idea what caused it.
+
+/********************************************************
+* List any other commenets here
+********************************************************/
+
+I recommend giving a disclaimer on the ps0 document that says. "if you get an error regarding vertical sync then try a different approach."
